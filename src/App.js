@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState,useRef, useEffect } from "react";
+import AddTask from "./components/AddTask";
+import Header from "./components/Header";
+import TaskList from "./components/TaskList";
+import { useTaskLayerValue } from "./context/TaskContext";
 
 function App() {
+  const [showbar,setShowbar]=useState(true)
+const inputRef=useRef(null)
+const [{tasks},dispatch]=useTaskLayerValue()
+// console.log(tasks);
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [])
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="d-flex  flex-column align-items-center">
+    <Header showbar={showbar} setShowbar={setShowbar} />
+    <AddTask showbar={showbar} dispatch={dispatch} inputRef={inputRef}/>
+    <TaskList tasks={tasks} />
     </div>
   );
 }
